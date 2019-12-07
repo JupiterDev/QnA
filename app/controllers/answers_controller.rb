@@ -6,9 +6,9 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      redirect_to question_path(@answer.question)
+      redirect_to question_path(@answer.question), notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 
