@@ -21,16 +21,15 @@ feature 'User can create answer to the question', %q{
       fill_in 'Body', with: 'text text'
       click_on 'Answer'
 
-      save_and_open_page
       expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'text text'
     end
 
-    # scenario 'create a question with errors' do
-    #   click_on 'Ask'
-
-    #   expect(page).to have_content "Title can't be blank"
-    # end
+    scenario 'create a question with errors' do
+      click_on 'Answer'
+      save_and_open_page
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 
   # scenario 'Unauthenticated user tries to ask a question' do
