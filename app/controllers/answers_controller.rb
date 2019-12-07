@@ -1,11 +1,12 @@
 class AnswersController < ApplicationController
-  def new; end
+  before_action :authenticate_user!
 
   def create
-    @answer = question.answers.create(answer_params)
+    @answer = question.answers.new(answer_params)
+    @answer.user = current_user
 
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(@answer.question)
     else
       render :new
     end
