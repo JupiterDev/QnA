@@ -19,7 +19,7 @@ feature 'User can view a list of questions', %q{
 
   end
 
-  scenario 'Anauthenticated user tries to view a list of questions' do
+  scenario 'Unauthenticated user tries to view a list of questions' do
     visit questions_path
 
     questions.each do |question|
