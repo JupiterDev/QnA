@@ -24,7 +24,7 @@ feature 'User can delete question', %q{
       sign_in(other_user)
       visit question_path(question)
 
-      expect(page).to_not have_content 'Delete question'
+      expect(page).to_not have_link 'Delete question'
     end
   end
 
@@ -32,6 +32,6 @@ feature 'User can delete question', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete question'
+    expect(page).to_not have_link 'Delete question'
   end
 end

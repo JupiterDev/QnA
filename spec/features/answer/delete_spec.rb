@@ -19,7 +19,6 @@ feature 'User can delete answer', %q{
 
     scenario 'trying to delete their answer' do
       visit question_path(question)
-      # save_and_open_page
       click_on 'Delete answer'
 
       expect(page).to_not have_content answer.body
@@ -28,7 +27,7 @@ feature 'User can delete answer', %q{
     scenario "trying to delete someone else's answer" do
       visit question_path(other_user_question)
 
-      expect(page).to_not have_content 'Delete answer'
+      expect(page).to_not have_link 'Delete answer'
     end
   end
 
@@ -36,7 +35,7 @@ feature 'User can delete answer', %q{
     scenario "is trying to delete someone answer" do
       visit question_path(question)
       # save_and_open_page
-      expect(page).to_not have_content 'Delete answer'
+      expect(page).to_not have_link 'Delete answer'
     end
   end
 end
