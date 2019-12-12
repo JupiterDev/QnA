@@ -20,7 +20,6 @@ feature 'User can delete answer', %q{
     scenario 'trying to delete their answer' do
       visit question_path(question)
       click_on 'Delete answer'
-
       expect(page).to_not have_content answer.body
     end
 

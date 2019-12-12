@@ -12,6 +12,12 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    @answer = Answer.find(params[:id])
+    @answer.destroy if current_user.author_of?(@answer)
+    redirect_to question_path(@answer.question)
+  end
+
   private
 
   def question
