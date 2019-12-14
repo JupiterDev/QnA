@@ -4,11 +4,12 @@ class AnswersController < ApplicationController
   def create
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
+    @answer.save
 
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Your answer successfully created.'
+    if @answer.persisted?
+      flash.now[:notice] = 'Your answer has been successfully created.'
     else
-      render 'questions/show'
+      flash.now[:alert] = 'Your answer has not been created.'
     end
   end
 
