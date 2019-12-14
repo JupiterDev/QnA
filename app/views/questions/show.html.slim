@@ -6,12 +6,14 @@ p= @question.body
 - if current_user&.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
 
-= render @question.answers
+.answers
+  = render @question.answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-= form_with model: [@question, @answer] do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Answer'
+- if !current_user.nil?
+  = form_with model: [@question, @answer] do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Answer'

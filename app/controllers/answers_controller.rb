@@ -5,12 +5,6 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
     @answer.save
-
-    if @answer.persisted?
-      flash.now[:notice] = 'Your answer has been successfully created.'
-    else
-      flash.now[:alert] = 'Your answer has not been created.'
-    end
   end
 
   def destroy
