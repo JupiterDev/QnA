@@ -1,0 +1,5 @@
+<% if @answer.best? %>
+  $('<%="#answer-#{ @answer.id }" %>').addClass('best');
+  $('#answer-<%= @answer.id %>').remove();
+  $('.answers').prepend('<%= j render @answer %>');
+<% end %>
