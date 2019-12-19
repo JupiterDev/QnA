@@ -10,9 +10,9 @@ feature 'User can delete answer', %q{
   given!(:question) {create(:question, user: user)}
   given!(:answer) {create(:answer, question: question, user: user)}
 
-  given(:other_user) {create(:user)}
-  given!(:other_user_question) {create(:question, user: other_user)}
-  given!(:other_user_answer) {create(:answer, question: other_user_question, user: other_user)}
+  given(:another_user) {create(:user)}
+  given!(:another_user_question) {create(:question, user: another_user)}
+  given!(:another_user_answer) {create(:answer, question: another_user_question, user: another_user)}
   
   describe 'Authenticated user', js: true do
     background { sign_in(user) }
@@ -24,7 +24,7 @@ feature 'User can delete answer', %q{
     end
 
     scenario "trying to delete someone else's answer" do
-      visit question_path(other_user_question)
+      visit question_path(another_user_question)
 
       expect(page).to_not have_link 'Delete answer'
     end
