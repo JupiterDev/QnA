@@ -43,9 +43,7 @@ feature 'User can choose the best answer', %q{
       best_answer = answers.last
       within("#answer-#{answers.last.id}") { click_on 'The best' }
       first_answer = find('.answers').first(:element)
-      within first_answer do
-        expect(page).to have_content best_answer.body
-      end
+      expect(page).to have_content best_answer.body
     end
 
   end
