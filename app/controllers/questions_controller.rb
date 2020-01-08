@@ -24,6 +24,8 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
     else
+      print @question.errors.messages
+      print @question&.errors.present?
       render :new
     end
   end
@@ -44,6 +46,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url, :id, :_destroy])
   end
 end
