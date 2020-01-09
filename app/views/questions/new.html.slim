@@ -18,4 +18,14 @@
       = render 'link_fields', f: l
     .links
       = link_to_add_association 'Add link', f, :links
+      
+  p Badge:
+  p
+    = f.fields_for :badge do |b|
+      p
+        = b.label :title, 'Badge title'
+        = b.text_field :title
+      p
+        = b.label :image
+        = b.file_field :image
   p= f.submit 'Ask'
