@@ -22,4 +22,7 @@ div id = "answer-#{answer.id}" class=('best' if answer.best)
       = f.text_area :body
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+      = f.fields_for :links do |l|
+      .links
+        = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
       = f.submit 'Save'

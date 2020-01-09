@@ -6,14 +6,9 @@
   - @question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
 
-.links
-  p Links:
-  ul
-    - @question.links.each do |link|
-      div class="link-#{link.id}"
-        li= link_to link.name, link.url
-        - if current_user&.author_of?(@question)
-              p= link_to 'Delete link', link_path(link), method: :delete, remote: true
+.question_links
+  = render 'links_list'
+
 .answers
   = render @question.answers
 
@@ -36,5 +31,5 @@
       = f.fields_for :links do |l|
         = render 'link_fields', f: l
       .links
-        = link_to_add_association 'Add link', f, :links
+        = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
     p= f.submit 'Answer'
