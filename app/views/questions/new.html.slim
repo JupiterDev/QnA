@@ -1,4 +1,5 @@
-= render 'shared/errors', resource: @question
+.question-errors
+  = render 'shared/errors', resource: @question
 
 = form_with model: @question do |f|
   p
@@ -10,4 +11,21 @@
   p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+  
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      = render 'link_fields', f: l
+    .links
+      = link_to_add_association 'Add link', f, :links
+      
+  p Badge:
+  p
+    = f.fields_for :badge do |b|
+      p
+        = b.label :title, 'Badge title'
+        = b.text_field :title
+      p
+        = b.label :image
+        = b.file_field :image
   p= f.submit 'Ask'

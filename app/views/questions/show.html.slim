@@ -6,6 +6,9 @@
   - @question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
 
+.question_links
+  = render 'links_list'
+
 .answers
   = render @question.answers
 
@@ -23,4 +26,10 @@
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+    p Links:
+    p
+      = f.fields_for :links do |l|
+        = render 'link_fields', f: l
+      .links
+        = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'
     p= f.submit 'Answer'

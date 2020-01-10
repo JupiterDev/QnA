@@ -9,6 +9,7 @@ feature 'User can edit his answer', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:link) {'https://thinknetica.ru/'}
 
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
@@ -62,6 +63,21 @@ feature 'User can edit his answer', %q{
       end
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'adds his new links when editing an answer', js: true do
+      sign_in user
+      visit question_path(question)
+      click_on 'Edit'
+
+      within '.answers' do
+        click_on 'Add link'
+        fill_in 'Link name', with: 'abcde'
+        fill_in 'Link url', with: link
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'abcde', href: link
     end
   end
 end
