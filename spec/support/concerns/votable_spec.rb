@@ -4,6 +4,7 @@ RSpec.shared_examples_for 'votable' do
   let(:model) { described_class }
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
+  let(:third_user) { create(:user) }
   let(:votable) do
     if model.to_s == 'Answer'
       question = create(:question, user: user)
@@ -25,5 +26,11 @@ RSpec.shared_examples_for 'votable' do
     expect(Vote.last.value).to eq -1
     expect(Vote.last.user).to eq another_user
     expect(Vote.last.votable).to eq votable
+  end
+
+  it '#rating' do
+    votable.vote_up(another_user)
+    votable.vote_up(third_user)
+    expect(votable.rating).to eq 2
   end
 end
