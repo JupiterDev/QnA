@@ -25,6 +25,14 @@ feature 'User can vote for a question', %q{
         expect(page).to have_content '-1'
       end
     end
+
+    scenario 'can vote only once' do
+      within ".Question-#{question.id}" do
+        click_on 'up'
+        click_on 'up'
+        expect(page).to have_content '1'
+      end
+    end
   end
 
   scenario "Author cannot vote for their question" do
