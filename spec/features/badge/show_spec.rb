@@ -14,6 +14,7 @@ feature 'User can show badges', %q{
     visit question_path(question)
     fill_in 'Body', with: 'text text text'
     click_on 'Answer'
+    save_and_open_page
     click_on 'The best'
 
     visit badges_path
