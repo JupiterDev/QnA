@@ -18,10 +18,11 @@ div id = "answer-#{answer.id}" class=('best' if answer.best)
       div class="#{answer.class}-#{answer.id}"
         .rating
           =  "rating: #{answer.rating}"
-        .voting
-          = link_to 'up', polymorphic_path(answer, action: :vote_up), method: :post, remote: true, data: { type: :json }
-          span= ' | '
-          = link_to 'down', polymorphic_path(answer, action: :vote_down), method: :post, remote: true, data: { type: :json }
+        - unless current_user&.author_of?(answer)
+          .voting
+            = link_to 'up', polymorphic_path(answer, action: :vote_up), method: :post, remote: true, data: { type: :json }
+            span= ' | '
+            = link_to 'down', polymorphic_path(answer, action: :vote_down), method: :post, remote: true, data: { type: :json }
 
   - if current_user&.author_of?(answer)
     p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true

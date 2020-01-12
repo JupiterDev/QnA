@@ -1,5 +1,4 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
-console.log("ANSWER");
 <% if @answer.persisted? %>
   $(".answers").append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');

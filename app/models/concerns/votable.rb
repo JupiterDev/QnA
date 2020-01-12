@@ -16,4 +16,8 @@ module Votable
   def rating
     votes.sum(:value)
   end
+
+  def was_voted?
+    votes.any?
+  end
 end
