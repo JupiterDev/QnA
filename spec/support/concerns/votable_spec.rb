@@ -17,15 +17,11 @@ RSpec.shared_examples_for 'votable' do
   it '#vote_up' do
     votable.vote_up(another_user)
     expect(Vote.last.value).to eq 1
-    expect(Vote.last.user).to eq another_user
-    expect(Vote.last.votable).to eq votable
   end
 
   it '#vote_down' do
     votable.vote_down(another_user)
     expect(Vote.last.value).to eq -1
-    expect(Vote.last.user).to eq another_user
-    expect(Vote.last.votable).to eq votable
   end
 
   it '#rating' do
