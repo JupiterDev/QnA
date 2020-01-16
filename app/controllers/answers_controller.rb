@@ -1,6 +1,8 @@
-class AnswersController < ApplicationController
+class AnswersController < ApplicationController 
   before_action :authenticate_user!
   before_action :load_answer, only: [:update, :destroy, :choose_the_best]
+
+  include Voted
 
   def create
     @answer = question.answers.new(answer_params)
@@ -32,6 +34,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
+    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url, :id, :_destroy])
   end
 end

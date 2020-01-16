@@ -12,7 +12,27 @@ div id = "answer-#{answer.id}" class=('best' if answer.best)
     - if answer.files.attached?
       - answer.files.each do |file|
         p= link_to file.filename.to_s, url_for(file)
-
+  
+    .vote
+      p Vote:
+      div class="#{answer.class}-#{answer.id}"
+        .rating
+          =  "rating: #{answer.rating}"
+        - unless current_user&.author_of?(answer)
+          .voting
+            = link_to 'up', polymorphic_path(answer, action: :vote_up), 
+                            method: :post, 
+                            remote: true, 
+                            data: { type: :json }
+            span= ' | '
+            = link_to 'down', polymorphic_path(answer, action: :vote_down), 
+                              method: :post, 
+                              remote: true, 
+                              data: { type: :json }
+          .re-vote
+            = link_to 'cancel your vote', polymorphic_path(answer, action: :cancel_vote),
+                                          class: "cancel-vote-link #{'hidden' unless current_user&.already_voted?(answer.id)}", 
+                                          method: :delete, remote: true, data: {type: :json}
   - if current_user&.author_of?(answer)
     p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
     p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
