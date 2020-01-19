@@ -8,8 +8,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :votable do
-    resources :answers, concerns: :votable, shallow: true, only: [:create, :update, :destroy] do
+  concern :commentable do
+    resources :comments, only: :create, shallow: true
+  end
+
+  resources :questions, concerns: %i[votable commentable] do
+    resources :answers, concerns: %i[votable commentable], shallow: true, only: [:create, :update, :destroy] do
       patch :choose_the_best, on: :member
     end
   end

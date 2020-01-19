@@ -13,6 +13,11 @@ div id = "answer-#{answer.id}" class=('best' if answer.best)
       - answer.files.each do |file|
         p= link_to file.filename.to_s, url_for(file)
   
+    .answer_comments
+      = render 'comments/comments', resource: answer
+    .add_comment
+      = render 'comments/form', resource: answer
+
     .vote
       p Vote:
       div class="#{answer.class}-#{answer.id}"
