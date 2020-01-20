@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_answer, only: [:update, :destroy, :choose_the_best]
 
+  after_action :publish_answer, only: [:create]
+
   include Voted
 
   def create
@@ -35,5 +37,15 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url, :id, :_destroy])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "question#{@answer.question.id}",
+      answer: @answer,
+      question_author_id: @answer.question.user.id
+    )
   end
 end

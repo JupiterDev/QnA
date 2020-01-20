@@ -5,6 +5,7 @@
 
 require("@rails/ujs").start();
 require("turbolinks").start();
+require("@rails/actioncable");
 require("@rails/activestorage").start();
 require("channels");
 require("jquery");
@@ -19,3 +20,6 @@ require("packs/questions");
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+// var App = App || {};
+// App.cable = ActionCable.createConsumer();

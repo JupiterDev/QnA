@@ -1,7 +1,7 @@
 p= link_to 'Ask question', new_question_path
 
-table
+.questions
   - @questions.each do |q|
-    tr
-      td= q.title
-      td= q.body
+    p= q.title
+    = q.body
+    hr
