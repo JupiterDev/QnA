@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_resource, only: :create
 
+  authorize_resource
+
   def create
     @comment = @resource.comments.new(comment_params)
     @comment.user = current_user
