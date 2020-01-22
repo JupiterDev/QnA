@@ -28,11 +28,6 @@ RSpec.describe AttachmentsController, type: :controller do
       it "trying to delete someone else's question" do
         expect { delete :destroy, params: { id: question.files.first}, format: :js }.to_not change(ActiveStorage::Attachment, :count)
       end
-
-      it 'redirect' do
-        delete :destroy, params: { id: question.files.first }, format: :js
-        expect(response).to render_template :destroy
-      end
     end
   end
 end

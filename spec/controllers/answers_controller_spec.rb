@@ -124,11 +124,7 @@ RSpec.describe AnswersController, type: :controller do
       it "trying to delete someone else's question" do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
-
-      it 'redirect' do
-        delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
-      end
+      
     end
   end
 

@@ -35,26 +35,6 @@ feature 'User can vote for a answer', %q{
         expect(page).to_not have_content 'down'
       end
     end
-
-    scenario 'can re-vote' do
-      within ".Answer-#{answer.id}" do
-        click_on 'up'
-        expect(page).to have_link 'cancel your vote'
-
-        click_on 'cancel your vote'
-        expect(page).to_not have_link 'cancel your vote'
-      end
-    end
-
-    scenario 'can re-vote' do
-      within ".Question-#{question.id}" do
-        click_on 'up'
-        expect(page).to have_link 'cancel your vote'
-
-        click_on 'cancel your vote'
-        expect(page).to_not have_link 'cancel your vote'
-      end
-    end
   end
 
   scenario "Author cannot vote for their answer" do
