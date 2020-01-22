@@ -159,11 +159,7 @@ RSpec.describe QuestionsController, type: :controller do
       it "trying to delete someone else's question" do
         expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
       end
-
-      it 'redirects to index' do
-        delete :destroy, params: { id: question }, format: :js
-        expect(response).to redirect_to questions_path
-      end
+      
     end
   end
 
