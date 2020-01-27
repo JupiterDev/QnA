@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users
 
   concern :votable do
@@ -24,5 +25,20 @@ Rails.application.routes.draw do
 
   root to: 'questions#index'
 
-  # mount ActionCable.server => '/cable'
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        collection do
+          get :me
+          get :all
+        end
+      end
+
+      resources :questions, only: %i[index show create update destroy], shallow: true do
+        resources :answers, only: %i[index show create update destroy]
+      end
+    end
+  end
+
+  mount ActionCable.server => '/cable'
 end
