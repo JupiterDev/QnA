@@ -12,6 +12,7 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
     @answer.save
+    AnswerNotificationJob.perform_later(@answer) if @answer.persisted?
   end
 
   def update

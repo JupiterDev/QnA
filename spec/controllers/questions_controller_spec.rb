@@ -163,5 +163,55 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe '#subscribe' do
+    context 'unauthored' do
+      before do
+        post :subscribe, params: { id: question, format: :js  }
+      end
+
+      it 'does not create a subscription' do
+        question.reload
+
+        expect(question.subscriptions.count).to eq(0)
+      end
+
+      it 'gets a response with forbidden status' do
+        expect(response.status).to eq(401)
+      end
+    end
+  end
+
+  describe '#unsubscribe' do
+    context 'authored' do
+      before do
+        login(user)
+        post :subscribe, params: { id: question, format: :js  }
+        delete :unsubscribe, params: { id: question, format: :js }
+      end
+
+      it 'deletes a subscription' do
+        question.reload
+
+        expect(question.subscriptions.count).to eq(0)
+      end
+    end
+
+    context 'unauthored' do
+      before do
+        post :unsubscribe, params: { id: question, format: :js  }
+      end
+
+      it 'does not delete a subscription' do
+        question.reload
+
+        expect(question.subscriptions.count).to eq(0)
+      end
+
+      it 'gets a response with forbidden status' do
+        expect(response.status).to eq(401)
+      end
+    end
+  end
+
   it_behaves_like 'voted'
 end
