@@ -7,6 +7,7 @@ feature 'User can unsubscribe to the question', %q{
 } do
 
   given(:user) {create(:user)}
+  given(:other_user) {create(:user)}
   given(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated user' do
@@ -15,12 +16,23 @@ feature 'User can unsubscribe to the question', %q{
     expect(page).to_not have_link('Unsubscribe')
   end
 
-  scenario 'Authenticated user tries to unsubscribe twice' do
-    sign_in(user)
-    question.unsubscribe(user)
+  describe 'Authenticated user', js: true do
+    before { sign_in(other_user) }
 
-    visit question_path(question)
-    expect(page).to_not have_link('Unsubscribe')
+    scenario 'tries to unsubscribe' do
+      question.subscribe(other_user)
+      visit question_path(question)
+      click_on 'Unsubscribe'
+
+      expect(page).to have_text('Unsubscribed!')
+    end
+
+    scenario 'tries to unsubscribe twice' do
+      question.unsubscribe(other_user)
+
+      visit question_path(question)
+      expect(page).to_not have_link('Unsubscribe')
+    end
   end
 
 end 

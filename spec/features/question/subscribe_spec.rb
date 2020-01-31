@@ -7,6 +7,7 @@ feature 'User can subscribe to the question', %q{
 } do
 
   given(:user) {create(:user)}
+  given(:other_user) {create(:user)}
   given(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated user' do
@@ -15,12 +16,22 @@ feature 'User can subscribe to the question', %q{
     expect(page).to_not have_link('Subscribe')
   end
 
-  scenario 'Authenticated user tries to subscribe twice' do
-    sign_in(user)
-    question.subscribe(user)
+  describe 'Authenticated user', js: true do
+    before { sign_in(other_user) }
 
-    visit question_path(question)
-    expect(page).to_not have_link('Subscribe')
+    scenario 'tries to subscribe' do
+      visit question_path(question)
+      click_on 'Subscribe'
+
+      expect(page).to have_text('Subscribed!')
+    end
+
+    scenario 'tries to subscribe twice' do
+      question.subscribe(other_user)
+      visit question_path(question)
+
+      expect(page).to_not have_link('Subscribe')
+    end
   end
 
 end 
