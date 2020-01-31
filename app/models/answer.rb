@@ -22,4 +22,8 @@ class Answer < ApplicationRecord
       question.badge&.update!(user: user)
     end
   end
+
+  def notify
+    AnswerNotificationJob.perform_later(self)
+  end
 end

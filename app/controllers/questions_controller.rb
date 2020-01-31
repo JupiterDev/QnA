@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      current_user.subscriptions.create(question: @question)
+      @question.subscribe(current_user)
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -45,18 +45,6 @@ class QuestionsController < ApplicationController
     authorize! :destroy, @question
     @question.destroy
     redirect_to questions_path
-  end
-
-  def subscribe
-    authorize! :subscribe, @question
-
-    @question.subscribe(current_user)
-  end
-
-  def unsubscribe
-    authorize! :unsubscribe, @question
-
-    @question.unsubscribe(current_user)
   end
 
   private

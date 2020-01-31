@@ -1,6 +1,6 @@
 class DailyDigest
   def send_digest
-    @questions_ids = Question.where("created_at > ?", 1.day.ago).pluck(:id)
+    @questions_ids = Question.where(created_at: (Time.now - 24.hours)..Time.now).pluck(:id)
     User.find_each(batch_size: 500) do |user|
       DailyDigestMailer.digest(user, @questions_ids).deliver_later
     end

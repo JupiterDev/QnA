@@ -20,8 +20,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: %i[votable commentable] do
-    post :subscribe, on: :member
-    delete :unsubscribe, on: :member
+    resource :subscription, only: %i[create destroy]
     resources :answers, concerns: %i[votable commentable], shallow: true, only: [:create, :update, :destroy] do
       patch :choose_the_best, on: :member
     end
