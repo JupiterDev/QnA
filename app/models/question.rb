@@ -8,6 +8,8 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
 
   has_many_attached :files
 
@@ -15,4 +17,22 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :badge, reject_if: :all_blank
 
   validates :title, :body, presence: true
+
+  def subscribe(user)
+    subscriptions.create!(user_id: user.id)
+  end
+
+  def unsubscribe(user)
+    subscriptions.where(user_id: user.id).delete_all
+  end
+
+  # after_create :calculate_reputation
+
+
+  # private
+
+  # def calculate_reputation
+  #   # ReputationJob.perform_later(self)
+  #   Services::Reputation.calculate(self)
+  # end
 end
